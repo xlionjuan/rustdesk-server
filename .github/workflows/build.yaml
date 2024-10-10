@@ -110,7 +110,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 22
 
       - name: Sign exe files
         uses: GermanBluefox/code-sign-action@v7
