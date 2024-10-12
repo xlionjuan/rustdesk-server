@@ -58,3 +58,10 @@ hbb_common = { path = "libs/hbb_common" }
 [workspace]
 members = ["libs/hbb_common"]
 exclude = ["ui"]
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = 'abort'
+strip = true
+rpath = true
