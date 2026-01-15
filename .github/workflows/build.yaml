@@ -46,12 +46,12 @@ jobs:
     steps:
       
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
         with:
           submodules: recursive
 
       - name: Install toolchain
-        uses: actions-rs/toolchain@v1
+        uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
         with:
           toolchain: "1.90"
           override: true
@@ -61,7 +61,7 @@ jobs:
           target: ${{ matrix.job.target }}
 
       - name: Build
-        uses: actions-rs/cargo@v1
+        uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1
         with:
           command: build
           args: --release --all-features --target=${{ matrix.job.target }}
@@ -71,7 +71,7 @@ jobs:
         run: chmod -v a+x target/${{ matrix.job.target }}/release/*
 
       - name: Publish Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: binaries-linux-${{ matrix.job.name }}
           path: |
@@ -87,12 +87,12 @@ jobs:
     steps:
       
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
         with:
           submodules: recursive
 
       - name: Install toolchain
-        uses: actions-rs/toolchain@v1
+        uses: actions-rs/toolchain@16499b5e05bf2e26879000db0c1d13f7e13fa3af # v1
         with:
           toolchain: "1.90"
           override: true
@@ -102,7 +102,7 @@ jobs:
           target: x86_64-pc-windows-msvc
 
       - name: Build
-        uses: actions-rs/cargo@v1
+        uses: actions-rs/cargo@844f36862e911db73fe0815f00a4a2602c279505 # v1
         with:
           command: build
           args: --release --all-features --target=x86_64-pc-windows-msvc
@@ -117,12 +117,12 @@ jobs:
           scoop install nsis
 
       - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3
         with:
           node-version: 16
 
       - name: Sign exe files
-        uses: GermanBluefox/code-sign-action@v7
+        uses: GermanBluefox/code-sign-action@d64f4a6113360b53d3005b8f5e8701ef4a263dea # v7
         if: false
         with:
           certificate: '${{ secrets.WINDOWS_PFX_BASE64 }}'
@@ -151,7 +151,7 @@ jobs:
         working-directory: ./ui
 
       - name: Sign UI setup file 
-        uses: GermanBluefox/code-sign-action@v7
+        uses: GermanBluefox/code-sign-action@d64f4a6113360b53d3005b8f5e8701ef4a263dea # v7
         if: false
         with:
           certificate: '${{ secrets.WINDOWS_PFX_BASE64 }}'
@@ -161,7 +161,7 @@ jobs:
           recursive: false
 
       - name: Publish Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: binaries-windows-x86_64
           path: |
@@ -193,7 +193,7 @@ jobs:
     steps:
 
       - name: Download binaries (${{ matrix.job.os }} - ${{ matrix.job.name }})
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: binaries-${{ matrix.job.os }}-${{ matrix.job.name }}
           path: ${{ matrix.job.name }}
@@ -208,7 +208,7 @@ jobs:
           zip ${{ matrix.job.name }}/rustdesk-server-${{ matrix.job.os }}-${{ matrix.job.name }}${{ matrix.job.suffix }}.zip ${{ matrix.job.name }}/*
 
       - name: Create Release (${{ matrix.job.os }} - (${{ matrix.job.name }})
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
         with:
           draft: true
           files: ${{ matrix.job.name }}/rustdesk-server-${{ matrix.job.os }}-${{ matrix.job.name }}${{ matrix.job.suffix }}.zip
@@ -231,12 +231,12 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
         with:
           submodules: recursive
         
       - name: Download binaries
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: binaries-linux-${{ matrix.job.name }}
           path: docker/rootfs/usr/bin
@@ -245,21 +245,21 @@ jobs:
         run: chmod -v a+x docker/rootfs/usr/bin/*
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@2b82ce82d56a2a04d2637cd93a637ae1b359c0a7 # v2
       
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@885d1462b80bc1c1c7f0b00334ad271f09369c55 # v2
 
       - name: Log in to Docker Hub
         if: github.event_name != 'pull_request'
-        uses: docker/login-action@v2
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Log in to GHCR
         if: github.event_name != 'pull_request'
-        uses: docker/login-action@v2
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
         with:
           registry: ghcr.io
           username: rustdesk
@@ -267,7 +267,7 @@ jobs:
         
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@818d4b7b91585d195f67373fd9cb0332e31a7175 # v4
         with:
           images: registry.hub.docker.com/${{ secrets.DOCKER_IMAGE }}
 
@@ -280,7 +280,7 @@ jobs:
           echo "MAJOR_TAG=$M" >> $GITHUB_ENV
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5
         with:
           context: "./docker"
           platforms: ${{ matrix.job.docker_platform }}
@@ -308,7 +308,7 @@ jobs:
 
       - name: Log in to Docker Hub
         if: github.event_name != 'pull_request'
-        uses: docker/login-action@v2
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
@@ -323,7 +323,7 @@ jobs:
 
       - name: Log in to GHCR
         if: github.event_name != 'pull_request'
-        uses: docker/login-action@v2
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
         with:
           registry: ghcr.io
           username: rustdesk
@@ -332,7 +332,7 @@ jobs:
       # manifest for :1.2.3 tag
       #  this has to run only if invoked by a new tag
       - name: Create and push manifest (:ve.rs.ion)
-        uses: Noelware/docker-manifest-action@0.4.3
+        uses: Noelware/docker-manifest-action@b33ab348026b120a895167160f5605b0197f0862 # 0.4.3
         if: github.event_name != 'workflow_dispatch'
         with:
           base-image: ${{ secrets.DOCKER_IMAGE }}:${{ env.GIT_TAG }}
@@ -341,7 +341,7 @@ jobs:
 
       # manifest for :1 tag (major release)
       - name: Create and push manifest (:major)
-        uses: Noelware/docker-manifest-action@0.4.3
+        uses: Noelware/docker-manifest-action@b33ab348026b120a895167160f5605b0197f0862 # 0.4.3
         with:
           base-image: ${{ secrets.DOCKER_IMAGE }}:${{ env.MAJOR_TAG }}
           extra-images: ${{ secrets.DOCKER_IMAGE }}:${{ env.MAJOR_TAG }}-amd64,${{ secrets.DOCKER_IMAGE }}:${{ env.MAJOR_TAG }}-arm64v8,${{ secrets.DOCKER_IMAGE }}:${{ env.MAJOR_TAG }}-armv7,${{ secrets.DOCKER_IMAGE }}:${{ env.MAJOR_TAG }}-i386
@@ -349,7 +349,7 @@ jobs:
 
       # manifest for :latest tag
       - name: Create and push manifest (:latest)
-        uses: Noelware/docker-manifest-action@0.4.3
+        uses: Noelware/docker-manifest-action@b33ab348026b120a895167160f5605b0197f0862 # 0.4.3
         with:
           base-image: ${{ secrets.DOCKER_IMAGE }}:${{ env.LATEST_TAG }}
           extra-images: ${{ secrets.DOCKER_IMAGE }}:${{ env.LATEST_TAG }}-amd64,${{ secrets.DOCKER_IMAGE }}:${{ env.LATEST_TAG }}-arm64v8,${{ secrets.DOCKER_IMAGE }}:${{ env.LATEST_TAG }}-armv7,${{ secrets.DOCKER_IMAGE }}:${{ env.LATEST_TAG }}-i386
@@ -358,7 +358,7 @@ jobs:
       # GHCR manifests
       # manifest for :1.2.3 tag
       - name: Create and push GHCR manifest (:ve.rs.ion)
-        uses: Noelware/docker-manifest-action@0.4.3
+        uses: Noelware/docker-manifest-action@b33ab348026b120a895167160f5605b0197f0862 # 0.4.3
         if: github.event_name != 'workflow_dispatch'
         with:
           base-image: ${{ env.GHCR_IMAGE }}:${{ env.GIT_TAG }}
@@ -367,7 +367,7 @@ jobs:
 
       # manifest for :1 tag (major release)
       - name: Create and push GHCR manifest (:major)
-        uses: Noelware/docker-manifest-action@0.4.3
+        uses: Noelware/docker-manifest-action@b33ab348026b120a895167160f5605b0197f0862 # 0.4.3
         with:
           base-image: ${{ env.GHCR_IMAGE }}:${{ env.MAJOR_TAG }}
           extra-images: ${{ env.GHCR_IMAGE }}:${{ env.MAJOR_TAG }}-amd64,${{ env.GHCR_IMAGE }}:${{ env.MAJOR_TAG }}-arm64v8,${{ env.GHCR_IMAGE }}:${{ env.MAJOR_TAG }}-armv7,${{ env.GHCR_IMAGE }}:${{ env.MAJOR_TAG }}-i386
@@ -375,7 +375,7 @@ jobs:
 
       # manifest for :latest tag
       - name: Create and push GHCR manifest (:latest)
-        uses: Noelware/docker-manifest-action@0.4.3
+        uses: Noelware/docker-manifest-action@b33ab348026b120a895167160f5605b0197f0862 # 0.4.3
         with:
           base-image: ${{ env.GHCR_IMAGE }}:${{ env.LATEST_TAG }}
           extra-images: ${{ env.GHCR_IMAGE }}:${{ env.LATEST_TAG }}-amd64,${{ env.GHCR_IMAGE }}:${{ env.LATEST_TAG }}-arm64v8,${{ env.GHCR_IMAGE }}:${{ env.LATEST_TAG }}-armv7,${{ env.GHCR_IMAGE }}:${{ env.LATEST_TAG }}-i386
@@ -399,12 +399,12 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
         with:
           submodules: recursive
         
       - name: Download binaries
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: binaries-linux-${{ matrix.job.name }}
           path: docker-classic/
@@ -413,21 +413,21 @@ jobs:
         run: chmod -v a+x docker-classic/*
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@2b82ce82d56a2a04d2637cd93a637ae1b359c0a7 # v2
       
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@885d1462b80bc1c1c7f0b00334ad271f09369c55 # v2
 
       - name: Log in to Docker Hub
         if: github.event_name != 'pull_request'
-        uses: docker/login-action@v2
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Log in to GHCR
         if: github.event_name != 'pull_request'
-        uses: docker/login-action@v2
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
         with:
           registry: ghcr.io
           username: rustdesk
@@ -435,7 +435,7 @@ jobs:
         
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@818d4b7b91585d195f67373fd9cb0332e31a7175 # v4
         with:
           images: registry.hub.docker.com/${{ secrets.DOCKER_IMAGE_CLASSIC }}
 
@@ -448,7 +448,7 @@ jobs:
           echo "MAJOR_TAG=$M" >> $GITHUB_ENV
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5
         with:
           context: "./docker-classic"
           platforms: ${{ matrix.job.docker_platform }}
@@ -474,7 +474,7 @@ jobs:
 
       - name: Log in to Docker Hub
         if: github.event_name != 'pull_request'
-        uses: docker/login-action@v2
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
@@ -489,7 +489,7 @@ jobs:
 
       - name: Log in to GHCR
         if: github.event_name != 'pull_request'
-        uses: docker/login-action@v2
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2
         with:
           registry: ghcr.io
           username: rustdesk
@@ -498,7 +498,7 @@ jobs:
       # manifest for :1.2.3 tag
       #  this has to run only if invoked by a new tag
       - name: Create and push manifest (:ve.rs.ion)
-        uses: Noelware/docker-manifest-action@0.4.3
+        uses: Noelware/docker-manifest-action@b33ab348026b120a895167160f5605b0197f0862 # 0.4.3
         if: github.event_name != 'workflow_dispatch'
         with:
           base-image: ${{ secrets.DOCKER_IMAGE_CLASSIC }}:${{ env.GIT_TAG }}
@@ -507,7 +507,7 @@ jobs:
 
       # manifest for :1 tag (major release)
       - name: Create and push manifest (:major)
-        uses: Noelware/docker-manifest-action@0.4.3
+        uses: Noelware/docker-manifest-action@b33ab348026b120a895167160f5605b0197f0862 # 0.4.3
         with:
           base-image: ${{ secrets.DOCKER_IMAGE_CLASSIC }}:${{ env.MAJOR_TAG }}
           extra-images: ${{ secrets.DOCKER_IMAGE_CLASSIC }}:${{ env.MAJOR_TAG }}-amd64,${{ secrets.DOCKER_IMAGE_CLASSIC }}:${{ env.MAJOR_TAG }}-arm64v8,${{ secrets.DOCKER_IMAGE_CLASSIC }}:${{ env.MAJOR_TAG }}-armv7
@@ -515,7 +515,7 @@ jobs:
 
       # manifest for :latest tag
       - name: Create and push manifest (:latest)
-        uses: Noelware/docker-manifest-action@0.4.3
+        uses: Noelware/docker-manifest-action@b33ab348026b120a895167160f5605b0197f0862 # 0.4.3
         with:
           base-image: ${{ secrets.DOCKER_IMAGE_CLASSIC }}:${{ env.LATEST_TAG }}
           extra-images: ${{ secrets.DOCKER_IMAGE_CLASSIC }}:${{ env.LATEST_TAG }}-amd64,${{ secrets.DOCKER_IMAGE_CLASSIC }}:${{ env.LATEST_TAG }}-arm64v8,${{ secrets.DOCKER_IMAGE_CLASSIC }}:${{ env.LATEST_TAG }}-armv7
@@ -524,7 +524,7 @@ jobs:
       # GHCR manifests
       # manifest for :1.2.3 tag
       - name: Create and push GHCR manifest (:ve.rs.ion)
-        uses: Noelware/docker-manifest-action@0.4.3
+        uses: Noelware/docker-manifest-action@b33ab348026b120a895167160f5605b0197f0862 # 0.4.3
         if: github.event_name != 'workflow_dispatch'
         with:
           base-image: ${{ env.GHCR_IMAGE_CLASSIC }}:${{ env.GIT_TAG }}
@@ -533,7 +533,7 @@ jobs:
 
       # manifest for :1 tag (major release)
       - name: Create and push GHCR manifest (:major)
-        uses: Noelware/docker-manifest-action@0.4.3
+        uses: Noelware/docker-manifest-action@b33ab348026b120a895167160f5605b0197f0862 # 0.4.3
         with:
           base-image: ${{ env.GHCR_IMAGE_CLASSIC }}:${{ env.MAJOR_TAG }}
           extra-images: ${{ env.GHCR_IMAGE_CLASSIC }}:${{ env.MAJOR_TAG }}-amd64,${{ env.GHCR_IMAGE_CLASSIC }}:${{ env.MAJOR_TAG }}-arm64v8,${{ env.GHCR_IMAGE_CLASSIC }}:${{ env.MAJOR_TAG }}-armv7
@@ -541,7 +541,7 @@ jobs:
 
       # manifest for :latest tag
       - name: Create and push GHCR manifest (:latest)
-        uses: Noelware/docker-manifest-action@0.4.3
+        uses: Noelware/docker-manifest-action@b33ab348026b120a895167160f5605b0197f0862 # 0.4.3
         with:
           base-image: ${{ env.GHCR_IMAGE_CLASSIC }}:${{ env.LATEST_TAG }}
           extra-images: ${{ env.GHCR_IMAGE_CLASSIC }}:${{ env.LATEST_TAG }}-amd64,${{ env.GHCR_IMAGE_CLASSIC }}:${{ env.LATEST_TAG }}-arm64v8,${{ env.GHCR_IMAGE_CLASSIC }}:${{ env.LATEST_TAG }}-armv7
@@ -565,12 +565,12 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
         with:
           submodules: recursive
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@2b82ce82d56a2a04d2637cd93a637ae1b359c0a7 # v2
 
       - name: Create packaging env
         run: |
@@ -579,7 +579,7 @@ jobs:
           mkdir -p debian-build/${{ matrix.job.name }}/bin
 
       - name: Download binaries
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: binaries-linux-${{ matrix.job.name }}
           path: debian-build/${{ matrix.job.name }}/bin
@@ -593,7 +593,7 @@ jobs:
           debuild -i -us -uc -b -a${{ matrix.job.debian_platform }}
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
         with:
           draft: true
           files: |
