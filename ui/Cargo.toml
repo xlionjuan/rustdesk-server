@@ -20,7 +20,7 @@ once_cell = "1.17"
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.2", features = ["fs-exists", "fs-read-dir", "fs-read-file", "fs-write-file", "path-all", "shell-open", "system-tray"] }
-windows-service = "0.5.0"
+windows-service = "0.8.0"
 
 [features]
 # by default Tauri runs in production mode
