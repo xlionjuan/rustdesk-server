@@ -44,7 +44,7 @@ sodiumoxide = "0.2"
 tokio-tungstenite = "0.17"
 tungstenite = "0.17"
 regex = "1.4"
-tower-http = { version = "0.3", features = ["fs", "trace", "cors"] }
+tower-http = { version = "0.6", features = ["fs", "trace", "cors"] }
 http = "0.2"
 flexi_logger = { version = "0.22", features = ["async", "use_chrono_for_offset", "dont_minimize_extra_stacks"] }
 ipnetwork = "0.20"
