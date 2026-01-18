@@ -8,7 +8,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "1.2", features = [] }
+tauri-build = { version = "2.0", features = [] }
 winres = "0.1"
 
 [dependencies]
@@ -19,7 +19,7 @@ notify = "8.0"
 once_cell = "1.17"
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.2", features = ["fs-exists", "fs-read-dir", "fs-read-file", "fs-write-file", "path-all", "shell-open", "system-tray"] }
+tauri = { version = "2.0", features = ["fs-exists", "fs-read-dir", "fs-read-file", "fs-write-file", "path-all", "shell-open", "system-tray"] }
 windows-service = "0.8.0"
 
 [features]
