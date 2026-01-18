@@ -29,7 +29,7 @@ machine-uid = "0.2"
 mac_address = "1.1.5"
 whoami = "1.2"
 base64 = "0.13"
-axum = { version = "0.5", features = ["headers"] }
+axum = { version = "0.8", features = ["headers"] }
 sqlx = { version = "0.6", features = [ "runtime-tokio-rustls", "sqlite", "macros", "chrono", "json" ] }
 deadpool = "0.8"
 async-trait = "0.1"
