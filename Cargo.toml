@@ -35,7 +35,7 @@ deadpool = "0.8"
 async-trait = "0.1"
 async-speed-limit = { git = "https://github.com/open-trade/async-speed-limit" }
 uuid = { version = "1.0", features = ["v4"] }
-bcrypt = "0.13"
+bcrypt = "0.18"
 chrono = "0.4"
 jsonwebtoken = "8"
 headers = "0.3"
